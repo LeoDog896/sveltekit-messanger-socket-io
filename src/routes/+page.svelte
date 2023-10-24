@@ -20,7 +20,7 @@
     }
 
     socket.on("message", message => {
-        // TODO
+        messages.push(message)
     })
 </script>
 
