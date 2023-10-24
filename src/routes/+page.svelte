@@ -1,26 +1,32 @@
 <script lang="ts">
     import { io } from "socket.io-client";
 
-    interface Message {
-        author: string;
-        content: string;
+    type Message = {
+        author: string,
+        content: string,
+        server?: {
+            online: number,
+            userList: String[]
+        }
     }
+
 
     let message = '';
 
-    const messages: Message[] = []
-    const socket = io("sockets.hosted.costerfan5.com");
+    let messages: Message[] = []
+    const socket = io("https://sockets.hosted.coasterfan5.com/");
 
     function submit() {
-        messages.push({
+        socket.emit("setName", "Goover");
+        messages = [...messages, {
             author: "me",
             content: message
-        })
+        }]
         socket.emit("message", message);
     }
 
     socket.on("message", message => {
-        messages.push(message)
+        messages = [...messages, message]
     })
 </script>
 
